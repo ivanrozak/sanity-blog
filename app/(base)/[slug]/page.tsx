@@ -1,14 +1,21 @@
 import { client } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
+import { Skeleton } from "@nextui-org/react";
 import { PortableText } from "@portabletext/react";
 import { groq } from "next-sanity";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import React from "react";
+const Youtube = dynamic(() => import("@/components/YoutubePreview"), {
+  loading: () => <Skeleton className="aspect-video w-[80%] mx-auto"></Skeleton>,
+  ssr: false,
+});
 
 const BlogDetail = async ({ params }: { params: any }) => {
   const { slug } = params;
   const query = groq`*[_type == "post" && slug.current == $slug][0]`;
   const blog = await client.fetch(query, { slug });
+
   return (
     <div>
       <h1 className="text-3xl font-semibold">{blog?.title}</h1>
@@ -34,6 +41,14 @@ const myPortableTextComponents = {
     image: ({ value }: any) => (
       <Image src={urlForImage(value)} alt="Post" width={700} height={700} />
     ),
+    youtube: ({ value }: any) => {
+      const { url } = value;
+      return (
+        <div className="aspect-video w-[80%] mx-auto">
+          <Youtube url={url} />
+        </div>
+      );
+    },
   },
 };
 
