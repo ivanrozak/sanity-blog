@@ -14,7 +14,5 @@ export async function sanityFetch<QueryResponse>({
 }: {
   query: string;
 }): Promise<QueryResponse> {
-  return client.fetch<QueryResponse>(query, {
-    cache: "no-store",
-  });
+  return client.fetch<QueryResponse>(query, {});
 }
