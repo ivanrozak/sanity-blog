@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { client, sanityFetch } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
 import { Skeleton } from "@nextui-org/react";
 import { PortableText } from "@portabletext/react";
@@ -14,7 +14,10 @@ const Youtube = dynamic(() => import("@/components/YoutubePreview"), {
 const BlogDetail = async ({ params }: { params: any }) => {
   const { slug } = params;
   const query = groq`*[_type == "post" && slug.current == $slug][0]`;
-  const blog = await client.fetch(query, { slug });
+  const blog: any = await sanityFetch({
+    query,
+    params: { slug },
+  });
 
   return (
     <div>

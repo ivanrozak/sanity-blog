@@ -16,6 +16,7 @@ const HomePage = async () => {
             </div>
           ))}
       </div>
+      <footer className="mt-8 text-center text-sm">for testing purpose</footer>
     </>
   );
 };
